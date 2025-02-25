@@ -156,23 +156,27 @@ DJ Toad es un bot de Discord diseñado para llevar la mejor música y diversión
 El proyecto está organizado de manera modular para facilitar su mantenimiento y expansión.
 
 ```
-djtoad-v2/
-├── bot.py              # Archivo principal para ejecutar el bot
-├── commands/           # Carpeta con los módulos de comandos
+djtoad-v2
+├── bot.py                # Archivo principal para ejecutar el bot
+├── commands              # Carpeta con los módulos de comandos
 │   ├── __init__.py
-│   ├── music_commands.py       # Comandos relacionados con la música
-│   ├── trivial_commands.py     # Comandos para el trivial musical
-│   └── other_commands.py       # Otros comandos (GIFs, etc.)
-├── utils/              # Funciones auxiliares y utilidades
-│   ├── __init__.py
-│   ├── audio_utils.py          # Funciones para manejar el audio
-│   └── voice_utils.py          # Funciones para manejar la conexión de voz
-├── queues/             # Módulo para gestionar las colas de reproducción
+│   ├── help_commands.py  # Comandos de ayuda
+│   ├── music_commands.py # Comandos relacionados con la música
+│   ├── other_commands.py # Otros comandos (GIFs, etc.)
+│   └── trivia_commands.py # Comandos de trivia
+├── media                 # Recursos multimedia
+│   ├── djtoad_v2.jpg
+│   └── trivia_intro.mp3
+├── queues                # Módulo para gestionar las colas de reproducción
 │   ├── __init__.py
 │   └── queue_manager.py
-├── .env                # Archivo de variables de entorno (no se comparte)
-├── requirements.txt    # Lista de dependencias de Python
-└── README.md           # Este archivo
+├── utils                 # Funciones utilitarias para manejar audio y voz
+│   ├── __init__.py
+│   ├── audio_utils.py
+│   └── voice_utils.py
+├── LICENSE
+├── README.md             # Archivo principal de documentación
+└── requirements.txt      # Lista de dependencias de Python
 ```
 
 ## Notas Importantes
