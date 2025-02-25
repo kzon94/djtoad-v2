@@ -111,7 +111,7 @@ class MusicCommands(commands.Cog):
             message += f"🎶 **Canción sonando:** {current_song}\n\n"
         else:
             message += "ℹ️ **No hay una canción reproduciéndose actualmente. ¡Croak!**\n\n"
-
+    
         queue = queue_manager.get_queue(ctx.guild.id)
         if queue:
             message += "**🎵 Cola de reproducción:**\n"
@@ -119,7 +119,7 @@ class MusicCommands(commands.Cog):
                 message += f"{index}. {title}\n"
         else:
             message += "ℹ️ La cola de reproducción está vacía. ¡Croak!"
-
+    
         await ctx.send(message)
 
     # Comando '!pause' para pausar la reproducción
