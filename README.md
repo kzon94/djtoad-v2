@@ -1,6 +1,6 @@
 # DJ Toad v2 🎧🐸
 
-![Logo de DJ Toad](djtoad.jpg)
+![Logo de DJ Toad](djtoad_v2.jpg)
 
 DJ Toad es un bot de Discord diseñado para llevar la mejor música a tu servidor. Ahora con una estructura modular mejorada, es más fácil de mantener, escalar y contribuir. Permite a los usuarios buscar canciones, gestionar la reproducción y disfrutar de divertidos comandos adicionales.
 
