@@ -37,5 +37,14 @@ class QueueManager:
     def has_songs(self, guild_id):
         return guild_id in self.queues and bool(self.queues[guild_id])
 
+    def get_queue(self, guild_id):
+        """Devuelve la cola actual para el servidor."""
+        return self.queues.get(guild_id, [])
+
+    def clear_queue(self, guild_id):
+        """Limpia la cola de reproducción para el servidor."""
+        if guild_id in self.queues:
+            del self.queues[guild_id]
+
 # Instancia única de QueueManager
 queue_manager = QueueManager()
