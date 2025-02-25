@@ -39,8 +39,14 @@ class MusicCommands(commands.Cog):
         if vc.is_playing():
             vc.stop()
 
+        # Opciones de FFmpeg para manejar reconexiones
+        ffmpeg_options = {
+            'options': '-vn -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+            'before_options': '-nostdin'
+        }
+
         # Reproducir la canción
-        vc.play(discord.FFmpegPCMAudio(url), after=lambda e: self.bot.loop.create_task(self.play_next_song(ctx)))
+        vc.play(discord.FFmpegPCMAudio(url, **ffmpeg_options), after=lambda e: self.bot.loop.create_task(self.play_next_song(ctx)))
 
         vc.source.title = title  # Guardar el título de la canción actual
         await ctx.send(f"🎶 Reproduciendo: {title}. ¡Croak!")
@@ -65,7 +71,13 @@ class MusicCommands(commands.Cog):
                 await ctx.send(f"❌ Error al obtener el audio para {title}. ¡Croak!")
                 return await self.play_next_song(ctx)
 
-            vc.play(discord.FFmpegPCMAudio(url), after=lambda e: self.bot.loop.create_task(self.play_next_song(ctx)))
+            # Opciones de FFmpeg para manejar reconexiones
+            ffmpeg_options = {
+                'options': '-vn -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+                'before_options': '-nostdin'
+            }
+
+            vc.play(discord.FFmpegPCMAudio(url, **ffmpeg_options), after=lambda e: self.bot.loop.create_task(self.play_next_song(ctx)))
             vc.source.title = title
             await ctx.send(f"🎶 Reproduciendo: {title}. ¡Croak!")
         else:
@@ -111,7 +123,7 @@ class MusicCommands(commands.Cog):
             message += f"🎶 **Canción sonando:** {current_song}\n\n"
         else:
             message += "ℹ️ **No hay una canción reproduciéndose actualmente. ¡Croak!**\n\n"
-    
+
         queue = queue_manager.get_queue(ctx.guild.id)
         if queue:
             message += "**🎵 Cola de reproducción:**\n"
@@ -119,7 +131,7 @@ class MusicCommands(commands.Cog):
                 message += f"{index}. {title}\n"
         else:
             message += "ℹ️ La cola de reproducción está vacía. ¡Croak!"
-    
+
         await ctx.send(message)
 
     # Comando '!pause' para pausar la reproducción
