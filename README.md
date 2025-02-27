@@ -1,4 +1,4 @@
-# DJ Toad v2 🎧🐸
+# DJ Toad v2.1 🎧🐸
 
 ![Logo de DJ Toad](djtoad_v2.jpg)
 
@@ -170,22 +170,27 @@ El proyecto está organizado de manera modular para facilitar su mantenimiento y
 
 ```
 djtoad-v2/
-├── bot.py              # Archivo principal para ejecutar el bot
+├── djtoad.py           # Archivo principal para ejecutar el bot
 ├── commands/           # Carpeta con los módulos de comandos
 │   ├── __init__.py
-│   ├── music_commands.py       # Comandos relacionados con la música
-│   ├── trivial_commands.py     # Comandos para el trivial musical
-│   └── other_commands.py       # Otros comandos (GIFs, etc.)
-├── utils/              # Funciones auxiliares y utilidades
-│   ├── __init__.py
-│   ├── audio_utils.py          # Funciones para manejar el audio
-│   └── voice_utils.py          # Funciones para manejar la conexión de voz
+│   ├── help_commands.py       # Comando de ayuda para listar los comandos disponibles
+│   ├── music_commands.py      # Comandos relacionados con la música
+│   ├── other_commands.py      # Comandos adicionales (GIFs, administración, etc.)
+│   ├── trivial_commands.py    # Comandos para el trivial musical
+├── media/              # Archivos multimedia utilizados por el bot
+│   ├── djtoad_v2.jpg         # Imagen relacionada con el bot
+│   ├── trivia_intro.mp3      # Archivo de audio para la introducción del trivial
 ├── queues/             # Módulo para gestionar las colas de reproducción
 │   ├── __init__.py
-│   └── queue_manager.py
+│   └── queue_manager.py      # Gestión de la cola de canciones
+├── utils/              # Funciones auxiliares y utilidades
+│   ├── __init__.py
+│   ├── audio_utils.py        # Funciones para manejar el audio
+│   └── voice_utils.py        # Funciones para manejar la conexión de voz
 ├── .env                # Archivo de variables de entorno (no se comparte)
+├── LICENSE             # Licencia del proyecto
+├── README.md           # Documentación del proyecto
 ├── requirements.txt    # Lista de dependencias de Python
-└── README.md           # Este archivo
 ```
 
 ## Notas Importantes
