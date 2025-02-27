@@ -51,15 +51,7 @@ DJ Toad es un bot de Discord diseñado para llevar la mejor música y diversión
 - **Comandos Administrativos**:
   - `!restart_bot`: Reinicia el bot en el servidor (solo administradores).
   - `!shutdown_bot`: Apaga completamente el bot (solo administradores).
-
-- **Trivial Musical**:
-  - `!trivial`: Inicia un juego de trivia musical con 7 rondas. Los jugadores deberán adivinar el título de las canciones basándose en fragmentos reproducidos.
-  - `!trivial_stop`: Detiene el trivial en curso.
-  - `!leaderboard`: Muestra el leaderboard actual con los puntajes de los jugadores.
-
-- **Comandos Divertidos**:
-  - `!dance1`, `!dance2`: ¡Saca a Toad a bailar!
-
+    
 ## Requisitos
 
 - **Python 3.8 o superior**: Asegúrate de tener una versión compatible de Python instalada.
