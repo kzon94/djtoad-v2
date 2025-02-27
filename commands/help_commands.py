@@ -28,22 +28,30 @@ class HelpCommands(commands.Cog):
             inline=False
         )
         embed.add_field(
+            name="🔹 ¡Comandos de Trivia!",
+            value=(
+                "`!trivial` - Inicia un juego de trivia musical.\n"
+                "`!trivial_stop` - Detiene el juego de trivia en curso.\n"
+                "`!leaderboard` - Muestra el ranking del trivial."
+            ),
+            inline=False
+        )
+        embed.add_field(
             name="🔹 ¡Comandos Divertidos!",
             value=(
-                "`!dance1`, `!dance2` - ¡Saca a Toad a bailar!\n"
-                "`!trivia` - Inicia un juego de trivia musical.\n"
-                "`!score` - Muestra tu puntaje en el trivia.\n"
-                "`!leaderboard` - Muestra el ranking de los jugadores en el trivia."
+                "`!dance1`, `!dance2` - ¡Saca a Toad a bailar!"
             ),
             inline=False
         )
         embed.add_field(
             name="🔹 ¡Comandos Administrativos!",
             value=(
-                "`!stopt` - Detiene el juego de trivia actual (solo administradores)."
+                "`!restart_bot` - Reinicia el bot en el servidor (solo admin).\n"
+                "`!shutdown_bot` - Apaga el bot completamente (solo admin)."
             ),
             inline=False
         )
+        
         embed.set_footer(text="¡Disfruta de la música y la diversión con DJ Toad! ¡Croak!")
 
         await ctx.send(embed=embed)

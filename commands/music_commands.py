@@ -6,7 +6,7 @@ from ytmusicapi import YTMusic
 from utils.audio_utils import fetch_audio_info
 from utils.voice_utils import connect_to_voice
 from queues.queue_manager import queue_manager
-import asyncio
+#import asyncio
 
 yt = YTMusic()
 

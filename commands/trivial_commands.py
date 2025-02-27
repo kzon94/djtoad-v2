@@ -1,3 +1,5 @@
+# commands/trivial_commands.py
+
 import discord
 from discord.ext import commands
 from ytmusicapi import YTMusic
@@ -15,14 +17,31 @@ class TrivialCommands(commands.Cog):
         self.scores = {}
         self.active_games = {}
         self.stop_game = {}
+        self.voice_clients = {}  # Diccionario para almacenar clientes de voz por servidor
 
     @commands.command()
     async def trivial(self, ctx):
         """Inicia un juego de trivia musical con 7 rondas."""
         if ctx.guild.id in self.active_games:
-            await ctx.send("⚠️ Ya hay un trivial en curso en este servidor. ¡Croak!")
-            return
+            await ctx.send("⚠️ Ya hay un trivial en curso en este servidor. Deteniendo el trivial anterior y comenzando uno nuevo. ¡Croak!")
 
+            # Detener el juego activo
+            self.stop_game[ctx.guild.id] = True
+
+            # Detener y desconectar el cliente de voz
+            if ctx.guild.voice_client:
+                if ctx.guild.voice_client.is_playing():
+                    ctx.guild.voice_client.stop()
+                await ctx.guild.voice_client.disconnect()
+
+            # Limpiar variables de estado
+            del self.active_games[ctx.guild.id]
+            del self.scores[ctx.guild.id]
+            del self.stop_game[ctx.guild.id]
+            if ctx.guild.id in self.voice_clients:
+                del self.voice_clients[ctx.guild.id]
+
+        # Iniciar nuevo trivial
         self.active_games[ctx.guild.id] = True
         self.scores[ctx.guild.id] = {}
         self.stop_game[ctx.guild.id] = False
@@ -31,6 +50,8 @@ class TrivialCommands(commands.Cog):
         if not vc:
             del self.active_games[ctx.guild.id]
             return
+
+        self.voice_clients[ctx.guild.id] = vc  # Guardar el cliente de voz
 
         # Ruta a la canción de introducción en la carpeta media
         intro_song_path = os.path.join('media', 'trivia_intro.mp3')
@@ -89,8 +110,14 @@ class TrivialCommands(commands.Cog):
                 break
 
             song = None
-            while not song or song['title'] in used_songs:
+            attempt = 0
+            while (not song or song['title'] in used_songs) and attempt < 10:
                 song = random.choice(search_results)
+                attempt += 1
+            if attempt >= 10:
+                await ctx.send("❌ No se encontraron suficientes canciones únicas. Terminando el juego. ¡Croak!")
+                break
+
             used_songs.add(song['title'])
             song_id = song['videoId']
             title = song['title']
@@ -116,18 +143,45 @@ class TrivialCommands(commands.Cog):
                 vc.stop()
             except asyncio.TimeoutError:
                 await ctx.send(f"\n❌ Tiempo agotado. La respuesta correcta era: **{title}** de **{artist}**. ¡Croak!\n")
+                vc.stop()
             
             await asyncio.sleep(4)
 
         # Indicar al ganador y mostrar leaderboard final
         await self.show_winner(ctx)
+
+        # Desconectar y limpiar el cliente de voz
+        if ctx.guild.voice_client:
+            if ctx.guild.voice_client.is_playing():
+                ctx.guild.voice_client.stop()
+            await ctx.guild.voice_client.disconnect()
+        if ctx.guild.id in self.voice_clients:
+            del self.voice_clients[ctx.guild.id]
+
+        # Limpiar variables de estado
         del self.active_games[ctx.guild.id]
+        del self.scores[ctx.guild.id]
+        del self.stop_game[ctx.guild.id]
 
     @commands.command()
     async def trivial_stop(self, ctx):
         """Detiene el trivial en curso."""
         if ctx.guild.id in self.active_games:
             self.stop_game[ctx.guild.id] = True
+
+            # Detener y desconectar el cliente de voz
+            if ctx.guild.voice_client:
+                if ctx.guild.voice_client.is_playing():
+                    ctx.guild.voice_client.stop()
+                await ctx.guild.voice_client.disconnect()
+
+            # Limpiar variables de estado
+            del self.active_games[ctx.guild.id]
+            del self.scores[ctx.guild.id]
+            del self.stop_game[ctx.guild.id]
+            if ctx.guild.id in self.voice_clients:
+                del self.voice_clients[ctx.guild.id]
+
             await ctx.send("🛑 Trivial detenido. ¡Croak!")
         else:
             await ctx.send("⚠️ No hay un trivial en curso. ¡Croak!")
@@ -163,10 +217,10 @@ class TrivialCommands(commands.Cog):
         winners = [player for player, points in leaderboard if points == max_points]
 
         if len(winners) == 1:
-            message = f"🎉 **¡Felicidades {winners[0]}!** Eres el ganador con {max_points} puntos. 🏆\n"
+            message = f"🎉 **¡Felicidades {winners[0]}!** Eres el ganador con {max_points} ranipuntos. 🏆\n"
         else:
             winners_list = ", ".join(winners)
-            message = f"🤝 **¡Tenemos un empate entre {winners_list}!** Cada uno con {max_points} puntos. 🏆\n"
+            message = f"🤝 **¡Tenemos un empate entre {winners_list}!** Cada uno con {max_points} ranipuntos. 🏆\n"
 
         await ctx.send(message)
         await self.show_scores(ctx)
